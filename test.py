@@ -1,5 +1,6 @@
 #! /usr/bin/python
 # Only external dependency should be BeautifulSoup
+# test.py -- truncates all loops to quickly check correctness
 
 import urllib2, csv, re, pickle
 from bs4 import BeautifulSoup
@@ -52,7 +53,7 @@ def grab(url, writer, prefix=[]):
 		writetable(table, writer,prefix)
 		return
 	# Else iterate through all pages
-	for i in range(1, index+1):
+	for i in range(1, 3):
 		u = urllib2.urlopen(BASE+stem+str(i))
 		s = BeautifulSoup(u.read(), 'html.parser')
 		u.close()
@@ -93,7 +94,7 @@ def main():
 		except AttributeError:
 			yearlist = ['']
 		# Loop over years available
-		for year in yearlist:
+		for year in yearlist[:2]:
 			# If no years listed, just use the current url
 			if yearlist == ['']:
 				print '%s%s' % (BASE, url)
@@ -110,7 +111,7 @@ def main():
 			try:
 				stem, index = matches.group(1), int(matches.group(2))
 				# Iterate through all pages
-				for i in range(1,index+1):
+				for i in range(1,3):
 					print '\t'+str(i)
 					u_s = urllib2.urlopen(BASE+stem+str(i))
 					soup_s = BeautifulSoup(u_s.read(), 'html.parser')
